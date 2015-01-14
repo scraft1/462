@@ -13,7 +13,7 @@ find /var/www -type f -exec chmod 0664 {} +
 
 yum install -y git
 git clone https://github.com/scraft1/462.git
-cp 462/index.html > /var/www/html
+cp 462/index.html /var/www/html
 
 service mysqld start
 mysql_secure_installation

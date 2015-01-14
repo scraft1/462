@@ -1,7 +1,7 @@
 #!/bin/bash
 yum update -y
 yum groupinstall -y "Web Server" "MySQL Database" "PHP Support"
-yum install -y php-
+yum install -y php-mysql
 yum install git -y
 service httpd start
 chkconfig httpd on

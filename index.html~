@@ -1,0 +1,29 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+</head>
+
+<body>
+
+<h1>Welcome!</h1>
+
+<input type="button" value="Login" onclick="window.location.href='login.html';">
+<input type="button" value="Signup" onclick="window.location.href='signup.html';">
+
+<h2>Users</h2>
+
+<ul id='list'></ul>
+
+
+
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="../js/logic.js"></script>
+
+<script type="text/javascript">
+fillTable();
+</script>
+</body>
+
+</html>
+

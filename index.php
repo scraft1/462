@@ -13,7 +13,7 @@
 <!-- change host name as needed -->
 <?php 
 include 'php/logic.php';
-echo "<input type='button' value='Signup' onclick='window.location.href=\"https://foursquare.com/oauth2/authenticate?client_id=5GUASCKIKMZYPUWKLPGN4ILQ3HFYP4PEH01M0LP14UCZDSL0&response_type=code&redirect_uri=http:/".$host."/signup.php\";'>";
+echo "<input type='button' value='Signup' onclick='window.location.href=\"https://foursquare.com/oauth2/authenticate?client_id=5GUASCKIKMZYPUWKLPGN4ILQ3HFYP4PEH01M0LP14UCZDSL0&response_type=code&redirect_uri=http://".$host."/signup.php\";'>";
 ?>
 
 <br><br>

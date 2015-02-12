@@ -2,6 +2,14 @@
 <head>
 	<link type="text/css" rel="stylesheet" href="css/style.css"/>
 </head>
+<script type="text/javascript" src="js/logic.js"></script>
+<script type="text/javascript">
+	var user = getParameterByName('user');
+
+	if(user === localStorage.getItem('current')){
+		window.location.replace('myprofile.php?user='+user);
+	}
+</script>
 
 <body>
 
@@ -17,15 +25,6 @@
 
 	getPublic($_GET['user']);
 ?>
-
-<script type="text/javascript" src="js/logic.js"></script>
-<script type="text/javascript">
-var user = getParameterByName('user');
-
-if(user === localStorage.getItem('current')){
-	window.location.replace('myprofile.php?user='+user);
-}
-</script>
 
 </body>
 

@@ -1,0 +1,20 @@
+<?php
+include 'php/logic.php';
+
+if(isset($_GET['code'])){ // user accepted authorization
+	$myfile = fopen("../secret.txt", "r") or die("Unable to open file!");
+	$secret = fread($myfile,filesize("../secret.txt"));
+	fclose($myfile);
+
+	$json = file_get_contents('https://foursquare.com/oauth2/access_token?client_id=5GUASCKIKMZYPUWKLPGN4ILQ3HFYP4PEH01M0LP14UCZDSL0'
+	.'&client_secret='.$secret.'&grant_type=authorization_code&redirect_uri=https://'.$host.'&code='.$_GET['code']);
+	$obj = json_decode($json);
+
+	addUser($newUser, $obj->access_token);
+
+	header('Location: http://'.$host);
+}
+else{ // denied authorization
+	header('Location: http://'.$host);
+}
+?>

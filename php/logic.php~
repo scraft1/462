@@ -1,0 +1,125 @@
+<?php
+	ini_set('display_errors', 'On');
+	$host = 'localhost';
+	$clientId = '5GUASCKIKMZYPUWKLPGN4ILQ3HFYP4PEH01M0LP14UCZDSL0';
+	global $data, $newUser;
+
+	function getJSON(){ // get updated JSON file
+		global $data;
+		$jsonString = file_get_contents('data.json');
+		$data = json_decode($jsonString);
+	}
+	
+	
+	function createList(){ // shows list of users on home page
+		getJSON();
+		global $data;
+
+		foreach($data as $obj){
+			echo "<li><a href='profile.php?user=".$obj->name."'>".$obj->name."</a></li>";
+		}
+	}
+
+	function addUser($user, $token){ // adds new registered user
+		getJSON();
+		global $data;
+
+		$l = count($data);
+		$data[$l]['name'] = $user;
+		$data[$l]['token'] = $token;
+
+		$res = json_encode($data);
+
+		file_put_contents('data.json', $res);
+	}
+
+	function getPublic($user){
+		// retrieve last checkin
+		getJSON();
+		global $data;
+		
+		echo "Recent Check-in:<br><br>";
+		foreach($data as $obj){
+			if($obj->name == $user){
+				$url = 'https://api.foursquare.com/v2/users/self/checkins?oauth_token='
+					.$obj->token.'&v=20140806';
+				$res = file_get_contents_curl($url);
+				$obj = json_decode($res);
+				$resp = $obj->response;
+				$checkins = $resp->checkins;
+				if($checkins->count == '0'){ // no checkins
+					echo "No checkins on file";break;		
+				}
+				$items = $checkins->items; 
+				foreach($items as $item){
+					$message = $item->shout; // return message
+					$venue = $item->venue;
+					$name = $venue->name; // return venue name 
+					echo "Venue: ".$name."<br>";
+					$location = $venue->location;
+					$address = $location->formattedAddress; 
+					$street = $address[0]; // return address
+					$citystate = $address[1]; // return citystate
+					echo "Address: ".$street." ".$citystate."<br>";
+					echo "Comments: ".$message."<br>";
+					break; // only show most recent for public
+				}
+				break;
+			}
+		}
+	}
+
+	function getPrivate($user){
+		// retrieve last checkin
+		getJSON();
+		global $data;
+		
+		echo "Recent Check-ins:<br><br>";
+		foreach($data as $obj){
+			if($obj->name == $user){
+				$url = 'https://api.foursquare.com/v2/users/self/checkins?oauth_token='
+					.$obj->token.'&v=20140806';
+				$res = file_get_contents_curl($url);
+				$obj = json_decode($res);
+				$resp = $obj->response;
+				$checkins = $resp->checkins;
+				if($checkins->count == '0'){ // no checkins
+					echo "No checkins on file";break;		
+				}
+				$items = $checkins->items; 
+				foreach($items as $item){
+					$message = $item->shout; // return message
+					$venue = $item->venue;
+					$name = $venue->name; // return venue name 
+					echo "Venue: ".$name."<br>";
+					$location = $venue->location;
+					$address = $location->formattedAddress; 
+					$street = $address[0]; // return address
+					$citystate = $address[1]; // return citystate
+					echo "Address: ".$street." ".$citystate."<br>";
+					echo "Comments: ".$message."<br><br>";
+				}
+				break;
+			}
+		}
+	}
+
+	function file_get_contents_curl($url) {
+		ini_set('display_errors', 'On');
+		// create a new cURL resource
+		$ch = curl_init();
+
+		// set URL and other appropriate options
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_URL, $url);
+
+		// grab URL and pass it to the browser
+		$res = curl_exec($ch);
+
+		// close cURL resource, and free up system resources
+		curl_close($ch);
+		return $res;
+	}
+?>
+
+

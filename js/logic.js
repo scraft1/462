@@ -1,38 +1,21 @@
-var myJSON;
+var curr = localStorage.getItem("current");
+if(curr){ // if curr is set ?? 
+	document.getElementById('current').innerHTML = 'Logged in as: ' + curr;
+}
+else {
+	document.getElementById('current').innerHTML = 'Not logged in';
+}
 
-function setJSON(){
-	$.ajax({
- 		url: '../data.json',
-  		async: false,
-  		dataType: 'json',
-  		success: function (response) {
-    		// do stuff with response.
-			myJSON = response;			
-  		}
-	});
-	// getJSON with jquery
+// Logout button that calls localStorage.removeItem('current') or localStorage.clear()
+function logout(){
+	localStorage.removeItem('current');
+	location.reload();
 }
 
 
-
-// fills table based on number of endorsements in JSON
-function fillTable(){
-	setJSON(); 
-	for (var i = 0; i < myJSON.length; i++)
-	{
-		var link = document.createElement('a');
-        link.setAttribute('href', "profile.html?"+myJSON[i].user);
-		link.innerHTML="<li>"+myJSON[i].user+"</li>";			
-		document.getElementById('list').appendChild(link);
-	}		
-}
-
-function showProfile(u){
-	setJSON();
-	for (var i = 0; i < myJSON.length; i++)
-	{
-		if(myJSON[i].user === u){
-			document.getElementById('name').innerHTML = "Name: "+myJSON[i].user;
-		}
-	}	
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }

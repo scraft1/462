@@ -2,7 +2,6 @@
 <head>
 	<link type="text/css" rel="stylesheet" href="css/style.css"/>
 </head>
-<script type="text/javascript" src="js/logic.js"></script>
 <script type="text/javascript">
 	var user = getParameterByName('user');
 
@@ -18,7 +17,7 @@
 <a href='index.php'>Home</a>
 
 <br><br>
-
+<script type="text/javascript" src="js/logic.js"></script>
 <?php
 	include 'php/logic.php';
 	ini_set('display_errors', 'On');

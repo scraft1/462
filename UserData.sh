@@ -2,6 +2,7 @@
 yum update -y
 yum groupinstall -y "Web Server" "MySQL Database" "PHP Support"
 yum install -y php-mysql
+yum install php5-curl
 service httpd start
 chkconfig httpd on
 groupadd www
